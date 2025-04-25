@@ -1,15 +1,15 @@
 const skyzinha = document.getElementById("skyzinha");
 const mazeContainer = document.querySelector(".maze-container");
-let xPos = 0, yPos = 0; // Vị trí bắt đầu của Skyzinha
+let xPos = 0, yPos = 0; // Initial position of Skyzinha
 
-// Kích thước của maze và Skyzinha
+// Maze and Skyzinha size
 const mazeWidth = mazeContainer.offsetWidth;
 const mazeHeight = mazeContainer.offsetHeight;
-const skyzinhaSize = 40; // Kích thước nhân vật
+const skyzinhaSize = 40; // Skyzinha size
 
-// Hàm di chuyển Skyzinha
+// Move Skyzinha function
 function moveSkyzinha(x, y) {
-  // Kiểm tra xem nhân vật có vượt ra ngoài ranh giới không
+  // Check if the character goes out of bounds
   if (x >= 0 && x <= mazeWidth - skyzinhaSize) {
     xPos = x;
   }
@@ -17,12 +17,12 @@ function moveSkyzinha(x, y) {
     yPos = y;
   }
 
-  // Cập nhật vị trí nhân vật
+  // Update position
   skyzinha.style.left = `${xPos}px`;
   skyzinha.style.top = `${yPos}px`;
 }
 
-// Sự kiện cho bàn phím (desktop)
+// Event for keyboard (desktop)
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowUp":
@@ -40,14 +40,14 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Sự kiện cho các nút điều khiển trên mobile
+// Event for mobile control buttons
 document.getElementById("up").addEventListener("click", () => moveSkyzinha(xPos, yPos - 10));
 document.getElementById("down").addEventListener("click", () => moveSkyzinha(xPos, yPos + 10));
 document.getElementById("left").addEventListener("click", () => moveSkyzinha(xPos - 10, yPos));
 document.getElementById("right").addEventListener("click", () => moveSkyzinha(xPos + 10, yPos));
 
-// Đảm bảo các kích thước ban đầu được thiết lập chính xác
+// Ensure proper size on load
 window.onload = () => {
-  mazeContainer.style.position = "relative"; // Đảm bảo maze container có vị trí tương đối
-  skyzinha.style.position = "absolute"; // Đảm bảo Skyzinha có vị trí tuyệt đối
+  mazeContainer.style.position = "relative"; // Ensure maze container has relative positioning
+  skyzinha.style.position = "absolute"; // Ensure Skyzinha has absolute positioning
 };
