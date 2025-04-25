@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Maze Escape Game</title>
+  <title>Trò chơi Mê cung</title>
   <style>
     body {
       margin: 0;
@@ -11,102 +11,42 @@
       font-family: sans-serif;
       color: white;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      height: 100vh;
     }
-
     .maze-container {
       display: grid;
       grid-template-columns: repeat(10, 40px);
       grid-template-rows: repeat(10, 40px);
       gap: 2px;
+      margin-top: 20px;
     }
-
     .cell {
       width: 40px;
       height: 40px;
       background-color: white;
     }
-
     .wall {
       background-color: #444;
     }
-
     .player {
-      background-color: gold;
+      background-image: url('bird.png');
+      background-size: cover;
     }
-
     .goal {
-      background-color: limegreen;
+      background-image: url('nut.png');
+      background-size: cover;
     }
   </style>
 </head>
 <body>
-  <div class="maze-container" id="maze"></div>
-
-  <script>
-    const maze = [
-      "..........",
-      ".######.#.",
-      ".#....#.#.",
-      ".#.#.##.#.",
-      ".#.#....#.",
-      ".#.######.",
-      ".#........",
-      ".######.##",
-      "......#..#",
-      "#########."
-    ];
-
-    const container = document.getElementById("maze");
-
-    let playerPos = { x: 0, y: 0 };
-
-    function renderMaze() {
-      container.innerHTML = "";
-      for (let y = 0; y < 10; y++) {
-        for (let x = 0; x < 10; x++) {
-          const cell = document.createElement("div");
-          cell.classList.add("cell");
-          if (maze[y][x] === "#") {
-            cell.classList.add("wall");
-          }
-          if (x === playerPos.x && y === playerPos.y) {
-            cell.classList.add("player");
-          } else if (x === 9 && y === 9) {
-            cell.classList.add("goal");
-          }
-          container.appendChild(cell);
-        }
-      }
-    }
-
-    function move(dx, dy) {
-      const newX = playerPos.x + dx;
-      const newY = playerPos.y + dy;
-      if (
-        newX >= 0 && newX < 10 &&
-        newY >= 0 && newY < 10 &&
-        maze[newY][newX] === "."
-      ) {
-        playerPos = { x: newX, y: newY };
-        renderMaze();
-
-        if (newX === 9 && newY === 9) {
-          setTimeout(() => alert("🎉 You escaped the maze!"), 100);
-        }
-      }
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowUp") move(0, -1);
-      if (e.key === "ArrowDown") move(0, 1);
-      if (e.key === "ArrowLeft") move(-1, 0);
-      if (e.key === "ArrowRight") move(1, 0);
-    });
-
-    renderMaze();
-  </script>
+  <h1>Trò chơi Mê cung</h1>
+  <div class="maze-container">
+    <!-- Ví dụ về một số ô trong mê cung -->
+    <div class="cell wall"></div>
+    <div class="cell player"></div>
+    <div class="cell goal"></div>
+    <!-- Thêm các ô khác theo cấu trúc mê cung của bạn -->
+  </div>
 </body>
 </html>
