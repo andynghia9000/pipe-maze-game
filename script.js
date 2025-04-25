@@ -1,15 +1,15 @@
 const skyzinha = document.getElementById("skyzinha");
 const mazeContainer = document.querySelector(".maze-container");
-let xPos = 0, yPos = 0; // Starting position
+let xPos = 0, yPos = 0; // Vị trí bắt đầu của skyzinha
 
-// Maze dimensions
+// Kích thước của maze
 const mazeWidth = mazeContainer.offsetWidth;
 const mazeHeight = mazeContainer.offsetHeight;
-const skyzinhaSize = 40; // The size of the skyzinha
+const skyzinhaSize = 40; // Kích thước nhân vật
 
-// Function to move the skyzinha
+// Hàm di chuyển skyzinha
 function moveSkyzinha(x, y) {
-  // Check boundaries
+  // Kiểm tra xem nhân vật có vượt ra ngoài ranh giới không
   if (x >= 0 && x <= mazeWidth - skyzinhaSize) {
     xPos = x;
   }
@@ -17,12 +17,12 @@ function moveSkyzinha(x, y) {
     yPos = y;
   }
 
-  // Update position
+  // Cập nhật vị trí nhân vật
   skyzinha.style.left = `${xPos}px`;
   skyzinha.style.top = `${yPos}px`;
 }
 
-// Event listeners for keyboard (desktop)
+// Sự kiện cho bàn phím (desktop)
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowUp":
@@ -40,8 +40,14 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Event listeners for mobile controls
+// Sự kiện cho các nút điều khiển trên mobile
 document.getElementById("up").addEventListener("click", () => moveSkyzinha(xPos, yPos - 10));
 document.getElementById("down").addEventListener("click", () => moveSkyzinha(xPos, yPos + 10));
 document.getElementById("left").addEventListener("click", () => moveSkyzinha(xPos - 10, yPos));
 document.getElementById("right").addEventListener("click", () => moveSkyzinha(xPos + 10, yPos));
+
+// Đảm bảo các kích thước ban đầu được thiết lập chính xác
+window.onload = () => {
+  mazeContainer.style.position = "relative"; // Đảm bảo maze container có vị trí tương đối
+  skyzinha.style.position = "absolute"; // Đảm bảo skyzinha có vị trí tuyệt đối
+};
