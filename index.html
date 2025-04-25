@@ -1,52 +1,141 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Trò chơi Mê cung</title>
+  <title>3D Avoid Game with Farcade SDK</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #111;
-      font-family: sans-serif;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .maze-container {
-      display: grid;
-      grid-template-columns: repeat(10, 40px);
-      grid-template-rows: repeat(10, 40px);
-      gap: 2px;
-      margin-top: 20px;
-    }
-    .cell {
-      width: 40px;
-      height: 40px;
-      background-color: white;
-    }
-    .wall {
-      background-color: #444;
-    }
-    .player {
-      background-image: url('bird.png');
-      background-size: cover;
-    }
-    .goal {
-      background-image: url('nut.png');
-      background-size: cover;
-    }
+    * { margin: 0; padding: 0; }
+    body, html { width: 100%; height: 100%; overflow: hidden; background: black; }
+    canvas { display: block; margin: auto; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@farcade/game-sdk@latest/dist/index.min.js"></script>
 </head>
 <body>
-  <h1>Trò chơi Mê cung</h1>
-  <div class="maze-container">
-    <!-- Ví dụ về một số ô trong mê cung -->
-    <div class="cell wall"></div>
-    <div class="cell player"></div>
-    <div class="cell goal"></div>
-    <!-- Thêm các ô khác theo cấu trúc mê cung của bạn -->
-  </div>
+<canvas id="c"></canvas>
+<script>
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let score = 0;
+let gameOver = false;
+let isMuted = false;
+
+// SDK READY
+window.FarcadeSDK?.singlePlayer.actions.ready();
+
+// Player
+const player = {
+  x: canvas.width / 2,
+  y: canvas.height - 100,
+  width: 30,
+  height: 30,
+  color: "cyan",
+  speed: 10
+};
+
+// Obstacles
+const obstacles = [];
+
+function createObstacle() {
+  const width = Math.random() * 30 + 20;
+  const x = Math.random() * (canvas.width - width);
+  const y = -50;
+  const speed = Math.random() * 3 + 2;
+  obstacles.push({ x, y, width, height: width, speed });
+}
+
+function drawPlayer() {
+  ctx.fillStyle = player.color;
+  ctx.fillRect(player.x, player.y, player.width, player.height);
+}
+
+function drawObstacles() {
+  ctx.fillStyle = "red";
+  for (let o of obstacles) {
+    ctx.fillRect(o.x, o.y, o.width, o.height);
+  }
+}
+
+function updateObstacles() {
+  for (let o of obstacles) {
+    o.y += o.speed;
+  }
+  while (obstacles.length > 0 && obstacles[0].y > canvas.height) {
+    obstacles.shift();
+    score++;
+  }
+}
+
+function checkCollision() {
+  for (let o of obstacles) {
+    if (
+      player.x < o.x + o.width &&
+      player.x + player.width > o.x &&
+      player.y < o.y + o.height &&
+      player.y + player.height > o.y
+    ) {
+      gameOver = true;
+      window.FarcadeSDK?.singlePlayer.actions.gameOver({ score }); // SDK GAME OVER
+    }
+  }
+}
+
+function drawScore() {
+  ctx.fillStyle = "white";
+  ctx.font = "20px Arial";
+  ctx.fillText("Score: " + score, 20, 30);
+}
+
+function loop() {
+  if (gameOver) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawPlayer();
+  drawObstacles();
+  updateObstacles();
+  checkCollision();
+  drawScore();
+  requestAnimationFrame(loop);
+}
+
+setInterval(() => {
+  if (!gameOver) createObstacle();
+}, 500);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft" && player.x > 0) {
+    player.x -= player.speed;
+    window.FarcadeSDK?.singlePlayer.actions.hapticFeedback(); // SDK HAPTIC
+  }
+  if (e.key === "ArrowRight" && player.x + player.width < canvas.width) {
+    player.x += player.speed;
+    window.FarcadeSDK?.singlePlayer.actions.hapticFeedback(); // SDK HAPTIC
+  }
+});
+
+// SDK: PLAY AGAIN
+window.FarcadeSDK?.on("play_again", () => {
+  resetGame();
+});
+
+// SDK: MUTE/UNMUTE
+window.FarcadeSDK?.on("toggle_mute", (data) => {
+  isMuted = data.isMuted;
+  // Nếu bạn có âm thanh, set âm lượng ở đây
+  // Ví dụ: sound.volume = isMuted ? 0 : 1;
+});
+
+function resetGame() {
+  player.x = canvas.width / 2;
+  score = 0;
+  obstacles.length = 0;
+  gameOver = false;
+  loop();
+}
+
+// Start
+loop();
+</script>
 </body>
 </html>
