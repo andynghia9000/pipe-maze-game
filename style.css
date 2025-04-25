@@ -1,111 +1,66 @@
-/* Nhúng font */
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-*,
-*:after,
-*:before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Open Sans', sans-serif;
-}
-
-/* Định dạng tổng thể */
 body {
-  background: #973A37;
-  padding: 25px 0;
-  color: #D6BF5D;
+  font-family: sans-serif;
+  margin: 0;
+  background: #2c3e50;
+  overflow: hidden;
 }
 
-h1 {
-  text-align: center;
-  color: #D6BF5D;
+#maze .square {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  box-sizing: border-box;
+  background-color: #ecf0f1;
+  position: relative;
 }
 
-p {
-  padding: 25px;
-  margin: 15px auto;
-  max-width: 600px;
-  margin-bottom: 25px;
+.border-top { border-top: 2px solid #34495e; }
+.border-right { border-right: 2px solid #34495e; }
+.border-bottom { border-bottom: 2px solid #34495e; }
+.border-left { border-left: 2px solid #34495e; }
+
+.row { height: 25px; }
+
+#skyzinha {
+  width: 25px;
+  height: 25px;
+  background-color: red;
+  position: absolute;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.goal {
+  background-color: #2ecc71 !important;
 }
 
 .end {
-  position: fixed;
-  left: 50%;
+  visibility: hidden;
+  position: absolute;
   top: 50%;
-  background-color: #66A56B;
-  color: white;
-  padding: 25px;
-  transform: translate(-50%, -50%);
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 100;
+  text-align: center;
+}
+
+#mobile-controls {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  gap: 5px;
+  z-index: 20;
 }
 
-.end a {
-  text-decoration: none;
-  background-color: white;
-  color: #973A37;
-  padding: 5px 10px;
-  text-transform: uppercase;
-}
-
-/* Mobile controls */
-.mobilecontrols {
-  display: none;
-}
-
-@media (max-width: 750px) {
-  .mobilecontrols {
-    display: block;
-    width: 100%;
-    position: fixed;
-    bottom: 25px;
-    left: 0;
-    right: 0;
-  }
-
-  #up, #down, #left, #right {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.4);
-    color: white;
-    border-radius: 50%;
-    line-height: 1;
-    font-size: 1.5rem;
-    text-decoration: none;
-    text-align: center;
-    display: flex;
-    width: 50px;
-    height: 50px;
-    padding: 10px;
-    justify-content: center;
-    align-items: flex-start;
-  }
-
-  #up {
-    bottom: 75px;
-    left: 25px;
-  }
-
-  #down {
-    right: 25px;
-    bottom: 75px;
-  }
-
-  #right {
-    bottom: 25px;
-    right: 50px;
-  }
-
-  #left {
-    bottom: 25px;
-    left: 50px;
-  }
-}
-
-/* Thiết kế maze */
-.maze-container {
-  position: relative;
-  width: 600px;
-  margin: 0 auto;
+#mobile-controls button {
+  font-size: 20px;
+  padding: 10px;
+  margin: 2px;
+  border-radius: 5px;
 }
