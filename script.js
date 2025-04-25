@@ -1,13 +1,13 @@
 const skyzinha = document.getElementById("skyzinha");
 const mazeContainer = document.querySelector(".maze-container");
-let xPos = 0, yPos = 0; // Vị trí bắt đầu của skyzinha
+let xPos = 0, yPos = 0; // Vị trí bắt đầu của Skyzinha
 
-// Kích thước của maze
+// Kích thước của maze và Skyzinha
 const mazeWidth = mazeContainer.offsetWidth;
 const mazeHeight = mazeContainer.offsetHeight;
 const skyzinhaSize = 40; // Kích thước nhân vật
 
-// Hàm di chuyển skyzinha
+// Hàm di chuyển Skyzinha
 function moveSkyzinha(x, y) {
   // Kiểm tra xem nhân vật có vượt ra ngoài ranh giới không
   if (x >= 0 && x <= mazeWidth - skyzinhaSize) {
@@ -49,5 +49,5 @@ document.getElementById("right").addEventListener("click", () => moveSkyzinha(xP
 // Đảm bảo các kích thước ban đầu được thiết lập chính xác
 window.onload = () => {
   mazeContainer.style.position = "relative"; // Đảm bảo maze container có vị trí tương đối
-  skyzinha.style.position = "absolute"; // Đảm bảo skyzinha có vị trí tuyệt đối
+  skyzinha.style.position = "absolute"; // Đảm bảo Skyzinha có vị trí tuyệt đối
 };
