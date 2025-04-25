@@ -1,111 +1,75 @@
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 0;
-  padding: 0;
+let mazeSize = 25;
+let playerpos = {x: 0, y: 0};
+let winpos = {x: mazeSize, y: mazeSize};
+let step = {x: 26, y: 26};
+
+if (window.innerWidth < 750) {
+  step.x = 14;
+  step.y = 14;
+  mazeSize = 20;
 }
 
-h1 {
-  margin-top: 20px;
-}
+window.addEventListener('resize', function(e) {
+  if (window.innerWidth < 750) {
+    step.x = 14;
+    step.y = 14;
+    mazeSize = 20;
+  } else {
+    step.x = 26;
+    step.y = 26;
+  }
+});
 
-.maze-container {
-  position: relative;
-  width: 80vw;
-  height: 60vh;
-  margin: 20px auto;
-  border: 2px solid #000;
-  background-color: #f4f4f4;
-  overflow: hidden;
-}
-
-#skyzinha {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 40px;
-  height: 40px;
-  background-color: lightblue;
-  border-radius: 50%;
-}
-
-.pawn {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 20px;
-  height: 20px;
-  background-color: yellow;
-  border-radius: 50%;
-}
-
-.tail {
-  position: absolute;
-  bottom: -5px;
-  left: 10px;
-  width: 10px;
-  height: 10px;
-  background-color: gray;
-  border-radius: 50%;
-}
-
-.beak, .eye {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  background-color: black;
-  border-radius: 50%;
-}
-
-.beak {
-  top: 5px;
-  left: 15px;
-}
-
-.eye.left {
-  top: 10px;
-  left: 5px;
-}
-
-.eye.right {
-  top: 10px;
-  right: 5px;
-}
-
-.mobilecontrols a {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px;
-  font-size: 24px;
-  text-decoration: none;
-  background-color: #007bff;
-  color: white;
-  border-radius: 50%;
-  user-select: none;
-}
-
-.mobilecontrols {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.end {
-  margin-top: 20px;
-}
-
-@media (max-width: 600px) {
-  .maze-container {
-    width: 100vw;
-    height: 50vh;
+function newMaze(x, y) {
+  let totalCells = x * y;
+  let cells = new Array();
+  let unvis = new Array();
+  for (let i = 0; i < y; i++) {
+    cells[i] = new Array();
+    unvis[i] = new Array();
+    for (let j = 0; j < x; j++) {
+      cells[i][j] = [0, 0, 0, 0];
+      unvis[i][j] = true;
+    }
   }
 
-  .mobilecontrols a {
-    padding: 12px;
-    font-size: 28px;
+  let currentCell = [Math.floor(Math.random() * y), Math.floor(Math.random() * x)];
+  let path = [currentCell];
+  unvis[currentCell[0]][currentCell[1]] = false;
+  let visited = 1;
+
+  while (visited < totalCells) {
+    let pot = [
+      [currentCell[0] - 1, currentCell[1], 0, 2],
+      [currentCell[0], currentCell[1] + 1, 1, 3],
+      [currentCell[0] + 1, currentCell[1], 2, 0],
+      [currentCell[0], currentCell[1] - 1, 3, 1]
+    ];
+    let neighbors = [];
+
+    for (let l = 0; l < 4; l++) {
+      if (
+        pot[l][0] > -1 &&
+        pot[l][0] < y &&
+        pot[l][1] > -1 &&
+        pot[l][1] < x &&
+        unvis[pot[l][0]][pot[l][1]]
+      ) {
+        neighbors.push(pot[l]);
+      }
+    }
+
+    if (neighbors.length) {
+      let next = neighbors[Math.floor(Math.random() * neighbors.length)];
+      cells[currentCell[0]][currentCell[1]][next[2]] = 1;
+      cells[next[0]][next[1]][next[3]] = 1;
+      unvis[next[0]][next[1]] = false;
+      visited++;
+      currentCell = [next[0], next[1]];
+      path.push(currentCell);
+    } else {
+      currentCell = path.pop();
+    }
   }
+  return cells;
 }
