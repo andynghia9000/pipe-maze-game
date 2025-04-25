@@ -16,7 +16,7 @@ h1 {
   margin: 20px auto;
   border: 2px solid #000;
   background-color: #f4f4f4;
-  overflow: hidden; /* Đảm bảo không có phần tử nào ra ngoài */
+  overflow: hidden;
 }
 
 #skyzinha {
