@@ -1,6 +1,8 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
@@ -14,6 +16,7 @@ h1 {
   margin: 20px auto;
   border: 2px solid #000;
   background-color: #f4f4f4;
+  overflow: hidden; /* Đảm bảo không có phần tử nào ra ngoài */
 }
 
 #skyzinha {
@@ -81,6 +84,28 @@ h1 {
   user-select: none;
 }
 
+.mobilecontrols {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
 .end {
   margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .maze-container {
+    width: 100vw;
+    height: 50vh;
+  }
+
+  .mobilecontrols a {
+    padding: 12px;
+    font-size: 28px;
+  }
 }
