@@ -2,33 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sky Maze Game</title>
+  <title>Maze Game</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      background: #2c3e50;
+      overflow: hidden;
+    }
+    #maze .square {
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+      box-sizing: border-box;
+      background-color: #ecf0f1;
+      position: relative;
+    }
+    .border-top { border-top: 2px solid #34495e; }
+    .border-right { border-right: 2px solid #34495e; }
+    .border-bottom { border-bottom: 2px solid #34495e; }
+    .border-left { border-left: 2px solid #34495e; }
+    .row { height: 25px; }
+    #skyzinha {
+      width: 25px;
+      height: 25px;
+      background-color: red;
+      position: absolute;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    .goal {
+      background-color: #2ecc71 !important;
+    }
+    .end {
+      visibility: hidden;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      z-index: 100;
+    }
+  </style>
 </head>
 <body>
-  <h1>Giúp Sky tìm hạt giống!</h1>
-  <p>Trên desktop, dùng các phím ↓, ↑, →, ← để điều khiển. Trên di động, sử dụng các nút bấm dưới đây.</p>
-  <div class="maze-container">
-    <div class="skyzinha" id="skyzinha">
-      <div class="beak"></div>
-      <div class="eye left"></div>
-      <div class="eye right"></div>
-      <div class="pawn"></div>
-      <div class="tail"></div>
-    </div>
-    <div id="maze"></div>
-  </div>
-  <div class="mobilecontrols">
-    <a href="" id="up">↑</a>
-    <a href="" id="down">↓</a>
-    <a href="" id="left">←</a>
-    <a href="" id="right">→</a>
-  </div>
-  <div class="end">
-    <p>Bạn đã cho chim ăn hạt giống.</p>
-    <a href="">Chơi lại</a>
-  </div>
+  <div id="maze"></div>
+  <div id="skyzinha"><div class="pawn"></div></div>
+  <div class="end"><h1>You win!</h1><a href="#">Play again</a></div>
   <script src="script.js"></script>
 </body>
 </html>
